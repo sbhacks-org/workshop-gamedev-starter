@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			body, head {
+				margin: 0px;
+				padding: 0px;
+				height: 100%;
+				width: 100%;
+			}
+			canvas {
+				image-rendering: optimizeSpeed;
+				image-rendering: -o-crisp-edges;
+				image-rendering: -moz-crisp-edges;
+				image-rendering: -webkit-optimize-contrast;
+				image-rendering: pixelated;
+				-ms-interpolation-mode: nearest-neighbor;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="game-container"></div>
+		<script src="https://cdn.jsdelivr.net/npm/phaser@3.24.1/dist/phaser.min.js"></script>
+		<script src="game.js"></script>
+	</body>
+</html>
