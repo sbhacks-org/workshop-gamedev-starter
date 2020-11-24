@@ -172,9 +172,7 @@ function initializeGame() {
             // Set player velocity to 250 in +x direction
             // Check if spacebar is down and if player is touching the ground
             // Set player velocity to 470 in -y direction if yes
-            if(this.player.body.blocked.right) { // If a player runs into the wall, reset
-                this.resetGame();
-            }
+            // Check if a player runs into the wall, then reset the game
         }
     }
 
