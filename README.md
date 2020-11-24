@@ -1,4 +1,4 @@
-# workshop-gamedev-starter
+# SB Hacks Game Dev Workshop (Starter Code)
 Starter code for the Game Development workshop
 
 ## Getting Started
