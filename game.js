@@ -91,7 +91,7 @@ function initializeGame() {
 
         this.maxCoins = 0;
 
-        // Add all of the spikes
+        // Add all of the tiled objects
         this.parseObjects(this.spikes, "Spikes", 0, 8, 0, 8, "spike");
         this.parseObjects(this.lava, "Lava", 0, 0, 0, 0, "lava");
         this.parseObjects(this.coins, "Coins", 8, 7, 4, 4, "coin");
