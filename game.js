@@ -56,6 +56,16 @@ function initializeGame() {
         this.load.tilemapTiledJSON("map", "maps/map_example.json");
     }
 
+    function parseObjects(group, name, x, y, offsetX, offsetY, spriteName) {
+        var mapObjects = this.map.getObjectLayer(name)["objects"];
+        var mapObject;
+        for(var i = 0; i < mapObjects.length; ++i) {
+            mapObject = group.create(mapObjects[i].x, mapObjects[i].y - mapObjects[i].height, spriteName).setOrigin(0, 0);
+            if(name != "Lava") mapObject.body.setSize(mapObject.width - x, mapObject.height - y).setOffset(offsetX, offsetY);
+            if(name == "Coins") ++(this.maxCoins);
+        }
+    }
+
     function create() {
         // Add all collision handlers to the game object
         this.resetGame = resetGame;
@@ -64,11 +74,13 @@ function initializeGame() {
         this.hitLava = hitLava;
         this.reachGoal = reachGoal;
 
-        // Parse the map
-        var map = this.make.tilemap({ key: "map" });
-        var tileset = map.addTilesetImage("tiles", "tiles");
+        this.parseObjects = parseObjects;
 
-        this.platforms = map.createStaticLayer("Platforms", tileset);
+        // Parse the map
+        this.map = this.make.tilemap({ key: "map" });
+        var tileset = this.map.addTilesetImage("tiles", "tiles");
+
+        this.platforms = this.map.createStaticLayer("Platforms", tileset);
         this.platforms.setCollisionByExclusion(-1, true);
 
         // Add the different categories in-game objects
@@ -77,41 +89,19 @@ function initializeGame() {
         this.coins = this.physics.add.group({ allowGravity: false, immovable: true });
         this.goals = this.physics.add.group({ allowGravity: false, immovable: true });
 
-        // Add all of the spikes
-        var mapObjects = map.getObjectLayer("Spikes")["objects"];
-        var mapObject;
-        for(var i = 0; i < mapObjects.length; ++i) {
-            mapObject = this.spikes.create(mapObjects[i].x, mapObjects[i].y - mapObjects[i].height, "spike").setOrigin(0, 0);
-            mapObject.body.setSize(mapObject.width, mapObject.height - 8).setOffset(0, 8);
-        }
-
-        // Add all of the lava
-        mapObjects = map.getObjectLayer("Lava")["objects"];
-        for(var i = 0; i < mapObjects.length; ++i) {
-            this.lava.create(mapObjects[i].x, mapObjects[i].y - mapObjects[i].height, "lava").setOrigin(0, 0);
-        }
-
-        // Add all of the coins
         this.maxCoins = 0;
-        mapObjects = map.getObjectLayer("Coins")["objects"];
-        for(var i = 0; i < mapObjects.length; ++i) {
-            mapObject = this.coins.create(mapObjects[i].x, mapObjects[i].y - mapObjects[i].height, "coin").setOrigin(0, 0);
-            mapObject.body.setSize(mapObject.width - 8, mapObject.height - 7).setOffset(4, 4);
-            ++(this.maxCoins);
-        }
 
-        // Add all of the goals
-        mapObjects = map.getObjectLayer("Goals")["objects"];
-        for(var i = 0; i < mapObjects.length; ++i) {
-            mapObject = this.goals.create(mapObjects[i].x, mapObjects[i].y - mapObjects[i].height, "goal").setOrigin(0, 0);
-            mapObject.body.setSize(mapObject.width - 15, mapObject.height).setOffset(8, 0);
-        }
+        // Add all of the spikes
+        this.parseObjects(this.spikes, "Spikes", 0, 8, 0, 8, "spike");
+        this.parseObjects(this.lava, "Lava", 0, 0, 0, 0, "lava");
+        this.parseObjects(this.coins, "Coins", 8, 7, 4, 4, "coin");
+        this.parseObjects(this.goals, "Goals", 15, 0, 8, 0, "goal");
 
         // Calculate a good starting position (highest platform at x = 0)
-        for(this.startY = 0; this.startY < map.height; ++(this.startY)) {
-            if(map.getTileAt(0, this.startY, true).index != -1) break;
+        for(this.startY = 0; this.startY < this.map.height; ++(this.startY)) {
+            if(this.map.getTileAt(0, this.startY, true).index != -1) break;
         }
-        this.startY = (this.startY - 1) * map.tileHeight;
+        this.startY = (this.startY - 1) * this.map.tileHeight;
 
         // Add the player to the game
         this.player = this.physics.add.sprite(0, this.startY, "frog");
@@ -131,7 +121,7 @@ function initializeGame() {
         // Add player collision with lava and call hitLava()
         // Add player overlap with coins and call collectCoin()
         // Add player overlap with goals and call reachGoal()
-        this.physics.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
+        this.physics.world.setBounds(0, 0, this.map.width * this.map.tileWidth, this.map.height * this.map.tileHeight);
 
         this.cursors = this.input.keyboard.createCursorKeys();
         this.cameras.main.startFollow(this.player);
