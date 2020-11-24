@@ -107,7 +107,7 @@ function initializeGame() {
             mapObject.body.setSize(mapObject.width - 15, mapObject.height).setOffset(8, 0);
         }
 
-        // Calculate a good starting position
+        // Calculate a good starting position (highest platform at x = 0)
         for(this.startY = 0; this.startY < map.height; ++(this.startY)) {
             if(map.getTileAt(0, this.startY, true).index != -1) break;
         }
@@ -170,7 +170,7 @@ function initializeGame() {
             // TODO:
             // Add player animation "moving"
             // Set player velocity to 250 in +x direction
-            // Check if spacebar is down and if player is touching the ground
+            // Check if the up arrow key is down and if player is touching the ground
             // Set player velocity to 470 in -y direction if yes
             // Check if a player runs into the wall, then reset the game
         }
