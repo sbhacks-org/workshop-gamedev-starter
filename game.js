@@ -129,11 +129,12 @@ function initializeGame() {
             repeat: -1
         });
 
-        this.physics.add.collider(this.player, platforms);
-        this.physics.add.collider(this.player, spikes, this.hitSpike, null, this);
-        this.physics.add.collider(this.player, lava, this.hitLava, null, this);
-        this.physics.add.overlap(this.player, this.coins, this.collectCoin, null, this);
-        this.physics.add.overlap(this.player, goals, this.reachGoal, null, this);
+        // TODO:
+        // Add player collision with platforms
+        // Add player collision with spikes and call hitSpike()
+        // Add player collision with lava and call hitLava()
+        // Add player overlap with coins and call collectCoin()
+        // Add player overlap with goals and call reachGoal()
         this.physics.world.setBounds(0, 0, map.width * map.tileWidth, map.height * map.tileHeight);
 
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -170,11 +171,11 @@ function initializeGame() {
                 this.resetGame();
             }
         } else {
-            this.player.anims.play("moving", true);
-            this.player.setVelocityX(250);
-            if(this.cursors.space.isDown && this.player.body.blocked.down) {
-                this.player.setVelocityY(-470);
-            }
+            // TODO:
+            // Add player animation "moving"
+            // Set player velocity to 250 in +x direction
+            // Check if spacebar is down and if player is touching the ground
+            // Set player velocity to 470 in -y direction if yes
             if(this.player.body.blocked.right) {
                 this.resetGame();
             }
