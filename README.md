@@ -1,5 +1,5 @@
 # SB Hacks Game Dev Workshop (Starter Code)
-Starter code for the Game Development workshop
+This is the starter code for the Game Development workshop
 
 ## Getting Started
 You can pull from this repo or download the .zip file.
